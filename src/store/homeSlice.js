@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const homeSlice = createSlice({
   name: "home",
   initialState: {
-    response: {},
+    response: [],
     genres: {},
+    query: "",
   },
   reducers: {
     setResponse: (state, action) => {
@@ -13,9 +14,12 @@ export const homeSlice = createSlice({
     setGenres: (state, action) => {
       state.genres = action.payload;
     },
+    setSearchQuery: (state, action) => {
+      state.query = action.payload;
+    },
   },
 });
 
-export const { setResponse, setGenres } = homeSlice.actions;
+export const { setResponse, setGenres, setSearchQuery } = homeSlice.actions;
 
 export default homeSlice.reducer;
