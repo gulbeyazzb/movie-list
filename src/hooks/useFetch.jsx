@@ -12,7 +12,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../utils/api";
 
-const useFetch = (param) => {
+const useFetch = (url) => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
@@ -22,7 +22,7 @@ const useFetch = (param) => {
     setData(null);
     setError(null);
 
-    fetchData("s=" + param)
+    fetchData(url)
       .then((res) => {
         setLoading(false);
         setData(res);
@@ -31,7 +31,7 @@ const useFetch = (param) => {
         setLoading(false);
         setError("Something went worng!");
       });
-  }, [param]);
+  }, [url]);
 
   return { data, loading, error };
 };
