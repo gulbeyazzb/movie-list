@@ -8,13 +8,12 @@ import Details from "./pages/details/Details";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/:mediaType/:id" element={<Details />} />
-        {/* <Route path="/search/:query" element={<SearchResult />} /> */}
+        <Route path="/:Type/:id" element={<Details />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }
