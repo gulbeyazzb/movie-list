@@ -7,15 +7,15 @@ export const homeSlice = createSlice({
     genres: {},
   },
   reducers: {
-    getResponse: (state, action) => {
+    setResponse: (state, action) => {
       state.response = action.payload;
     },
-    getGenres: (state, action) => {
+    setGenres: (state, action) => {
       state.genres = action.payload;
     },
   },
 });
 
-export const { getResponse, getGenres } = homeSlice.actions;
+export const { setResponse, setGenres } = homeSlice.actions;
 
 export default homeSlice.reducer;
