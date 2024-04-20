@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import { fetchData } from "./utils/api";
+import { useSelector, useDispatch } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { getResponse } from "./store/homeSlice";
+import Home from "./pages/home/Home";
+
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import Home from "./pages/home/Home";
+import Details from "./pages/details/Details";
+import SearchResult from "./pages/searchResult/SearchResult";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState("Pokemon");
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const { response } = useSelector((state) => state.home);
 
+  const callApi = () => {
+    fetchData("s=" + search + "&page=" + page).then((res) => {
+      console.log(res.Search);
+      dispatch(getResponse(res));
+    });
+  };
+
+  useEffect(() => {
+    callApi();
+  }, [page]);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/:mediaType/:id" element={<Details />} />
+        <Route path="/search/:query" element={<SearchResult />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
