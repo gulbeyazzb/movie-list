@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
-import { useDispatch, useSelector } from "react-redux";
-import { setResponse } from "../../../store/homeSlice";
+import { useDispatch } from "react-redux";
+import { setResponse, setSearchQuery } from "../../../store/homeSlice";
 import Img from "../../../components/lazyLoadImage/Img";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 
@@ -13,8 +13,7 @@ const HeroBanner = () => {
   );
   const [query, setQuery] = useState("Pokemon");
   const navigate = useNavigate();
-  const { data, loading, error } = useFetch(query);
-  console.log(data);
+  const { data, loading, error } = useFetch("s=" + query);
   const dispatch = useDispatch();
 
   const searchQueryHandler = (e) => {
@@ -27,9 +26,14 @@ const HeroBanner = () => {
   };
 
   useEffect(() => {
+    dispatch(setResponse(data?.Search));
     const bg = data?.Search?.[Math.floor(Math.random() * 10)]?.Poster;
     setBackgroundImg(bg);
   }, [data]);
+
+  useEffect(() => {
+    dispatch(setSearchQuery(query));
+  }, [query]);
 
   return (
     <div className="hero-banner">
