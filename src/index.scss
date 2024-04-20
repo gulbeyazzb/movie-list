@@ -3,20 +3,15 @@
   font-size: 16px;
   line-height: 1;
   font-weight: 500;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-
+  padding: 0;
   --black: #04152d;
-  --black2: #041226;
+  --black2: #031939;
   --black3: #020c1b;
   --black-lighter: #1c4b91;
   --black-light: #173d77;
+  --red: #811e15;
   --pink: #da2f68;
-  --orange: #f89e00;
+  --orange: #fabe56;
   --gradient: linear-gradient(98.37deg, #f89e00 0.99%, #da2f68 100%);
 }
 
@@ -27,7 +22,7 @@
 }
 
 body {
-  background-color: var(--black);
+  background-color: var(--black2);
 }
 
 ::-webkit-scrollbar {
