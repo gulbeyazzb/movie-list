@@ -1,47 +1,76 @@
-import React, { ref } from "react";
-import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./style.scss";
-import dayjs from "dayjs";
-import Img from "../../../components/lazyLoadImage/Img";
-import CircleRating from "../../../components/circleRating/CircleRating";
-import Genres from "../../../components/genres/Genres";
-import { Navigate, useNavigate } from "react-router-dom";
+import MovieCard from "../../../components/movieCard/MovieCard";
+import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
+import { fetchData } from "../../../utils/api";
+import Spinner from "../../../components/spinner/Spinner";
 
 const SearchResult = () => {
-  const data = useSelector((state) => state.home?.response);
-  const navigate = useNavigate();
-  const goDetails = (item) => {
-    const id = item?.imdbID;
-    const type = item?.Type;
+  const [data, setData] = useState();
+  const [pageNum, setPageNum] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const { query } = useParams();
 
-    navigate(`/${type}/${id}`);
+  const fetchInitialData = () => {
+    setLoading(true);
+    fetchData(`s=${query}&page=${pageNum}`).then((res) => {
+      setData(res);
+      setPageNum((prev) => prev + 1);
+      setLoading(false);
+    });
   };
 
+  const fetchNextPageData = () => {
+    fetchData(`s=${query}&page=${pageNum}`).then((res) => {
+      if (data?.Search) {
+        setData({
+          ...data,
+          Search: [...data?.Search, ...res.Search],
+        });
+      } else {
+        setData(res);
+      }
+      setPageNum((prev) => prev + 1);
+    });
+  };
+
+  useEffect(() => {
+    setPageNum(1);
+    fetchInitialData();
+  }, [query]);
+
   return (
-    <div className="resultContainer">
-      <ContentWrapper>
-        <div className="items">
-          {data?.map((item, i) => {
-            return (
-              <div key={i} className="item" onClick={() => goDetails(item)}>
-                <div className="posterBlock">
-                  <Img src={item?.Poster} />
-                  <CircleRating id={item?.imdbID} />
-                  <Genres id={item?.imdbID} />
-                </div>
-                <div className="textBlock">
-                  <span className="title">{item?.Title}</span>
-                  <span className="date">
-                    {dayjs(item?.Year).format("YYYY")}
-                  </span>
-                </div>
+    <div className="searchResultsPage">
+      {loading && <Spinner initial={true} />}
+      {!loading && (
+        <ContentWrapper>
+          {data?.Search?.length > 0 ? (
+            <>
+              <div className="pageTitle">
+                {`Search ${
+                  data?.totalResults > 1 ? "results" : "result"
+                } of '${query}'`}
               </div>
-            );
-          })}
-        </div>
-      </ContentWrapper>
+              <InfiniteScroll
+                className="content"
+                dataLength={data?.Search?.length || []}
+                next={fetchNextPageData}
+                hasMore={pageNum <= Math.ceil(data?.totalResults / 10)}
+                loader={<Spinner />}
+              >
+                {data?.Search.map((item, i) => {
+                  return <MovieCard key={i} item={item} fromSearch={true} />;
+                })}
+              </InfiniteScroll>
+            </>
+          ) : (
+            <span className="resultNotFound">Sorry, Results not found!</span>
+          )}
+        </ContentWrapper>
+      )}
     </div>
   );
 };
