@@ -63,6 +63,12 @@ const DetailsBanner = ({ id }) => {
                           <span className="text">{data?.Runtime}</span>
                         </div>
                       )}
+                      <div className="infoItem">
+                        <span className="text bold">Type: </span>
+                        <span className="text">
+                          <span>{data?.Type}</span>
+                        </span>
+                      </div>
                     </div>
 
                     <div className="info">
