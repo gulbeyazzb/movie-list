@@ -1,12 +1,14 @@
-The Movie Web App is user-friendly was developed with vite + react.
+**The Movie Web App is user-friendly was developed with vite + react.**
 
-Technologies:
+**Technologies:**
 -axios
 -redux toolkit
 -scss
 -react
 -javascript
 
+To run:
+Firstly, you must install npm so you should write **"npm install"** to terminal.
+Then, you must write **"npm run dev"** to terminal to run.
 
-You must write "npm run dev" to terminal to run.
-The application has infinitive scroll
+The application has infinitive scroll.
