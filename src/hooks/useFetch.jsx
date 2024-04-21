@@ -1,14 +1,3 @@
-// const callApi = () => {
-//   fetchData("s=" + search).then((res) => {
-//     console.log(res.Search);
-//     dispatch(setResponse(res));
-//   });
-// };
-
-// useEffect(() => {
-//   callApi();
-// }, [page]);
-
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../utils/api";
 
