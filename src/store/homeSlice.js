@@ -4,16 +4,13 @@ export const homeSlice = createSlice({
   name: "home",
   initialState: {
     response: [],
-    genres: {},
     query: "",
   },
   reducers: {
     setResponse: (state, action) => {
       state.response = action.payload;
     },
-    setGenres: (state, action) => {
-      state.genres = action.payload;
-    },
+
     setSearchQuery: (state, action) => {
       state.query = action.payload;
     },
