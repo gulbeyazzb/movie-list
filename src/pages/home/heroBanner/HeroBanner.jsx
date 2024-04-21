@@ -13,7 +13,7 @@ const HeroBanner = () => {
   );
   const [query, setQuery] = useState("Pokemon");
   const navigate = useNavigate();
-  const { data, loading, error } = useFetch("s=" + query);
+  const { data, loading } = useFetch("s=" + query + "&page=" + 1);
   const dispatch = useDispatch();
 
   const searchQueryHandler = (e) => {
